@@ -9,8 +9,8 @@ Shader "Graph/PointSurface"
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface ConfigureSurface Standard fullforwardshadows
 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
+        // Use shader model 4.5 target, to get nicer looking lighting
+        #pragma target 4.5
         struct Input {
             float3 worldPos;
         };

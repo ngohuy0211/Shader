@@ -5,7 +5,7 @@ using UnityEngine;
 public class Graph : MonoBehaviour
 {
     [SerializeField] Transform pointPrefab;
-    [SerializeField, Range(10, 100)] int resolution = 10;
+    [SerializeField, Range(10, 200)] int resolution = 10;
     [SerializeField] FunctionLibrary.FunctionName function = default;
     [SerializeField, Min(0f)] float functionDuration = 1f, transitionDuration = 1f;
     Transform[] points;
@@ -14,6 +14,7 @@ public class Graph : MonoBehaviour
     FunctionLibrary.FunctionName transitionFunction;
     public enum TransitionMode { Cycle, Random };
     [SerializeField] TransitionMode transitionMode;
+
     void Awake()
     {
         float step = 2f / resolution;
