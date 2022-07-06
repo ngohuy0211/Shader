@@ -78,7 +78,7 @@ public static class FunctionLibrary
         return p;
     }
 
-    public static FunctionName GetNextFunctionName(FunctionName name)
+    public static FunctionName GetNextFunctionName (FunctionName name)
     {
         return (int)name < functions.Length - 1 ? name + 1 : 0;
     }

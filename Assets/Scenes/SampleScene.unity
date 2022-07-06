@@ -260,13 +260,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 620e04a24b3083748a736a6b28f8534e, type: 3}
-  material: {fileID: 2100000, guid: 392e6add7c4a4194b8942832a0f6e398, type: 2}
+  material: {fileID: 2100000, guid: bc32895539afa1b488ad91754420fc54, type: 2}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   resolution: 200
-  function: 0
+  function: 4
+  transitionMode: 0
   functionDuration: 1
-  transitionDuration: 1
-  transitionMode: 1
+  transitionDuration: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

@@ -58,7 +58,8 @@ public class Graph : MonoBehaviour
     void PickNextFunction()
     {
         function = transitionMode == TransitionMode.Cycle ?
-            FunctionLibrary.GetNextFunctionName(function) : FunctionLibrary.GetRandomFunctionNameOtherThan(function);
+            FunctionLibrary.GetNextFunctionName(function) :
+            FunctionLibrary.GetRandomFunctionNameOtherThan(function);
     }
 
     void UpdateFunction()
