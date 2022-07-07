@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\FunctionLibrary.cs" />
      <Compile Include="Assets\Scripts\Graph.cs" />
      <Compile Include="Assets\Scripts\GPUGraph.cs" />
+     <Compile Include="Assets\Scripts\Fractal.cs" />
      <None Include="Assets\Shaders\PointGPU.hlsl" />
      <None Include="Assets\Scripts\FunctionLibrary.compute" />
      <None Include="Assets\Shaders\PointSurfaceURP.shader" />
