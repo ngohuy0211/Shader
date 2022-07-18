@@ -6,6 +6,8 @@ using UnityEngine;
 using Unity.Mathematics;
 using static  Unity.Mathematics.math;
 using quaternion = Unity.Mathematics.quaternion;
+using Random = UnityEngine.Random;
+
 
 
 public class Fractal : MonoBehaviour
@@ -55,7 +57,7 @@ public class Fractal : MonoBehaviour
 
     //
     [SerializeField] Material material;
-    [SerializeField] Gradient gradient;
+    [SerializeField] Gradient gradientA, gradientB;
 
     NativeArray<FractalPart>[] parts;
 
@@ -64,16 +66,23 @@ public class Fractal : MonoBehaviour
     private ComputeBuffer[] matricesBuffers;
 
     //
-    static readonly int 
-        baseColorId = Shader.PropertyToID("_BaseColor"),
-        matricesId = Shader.PropertyToID("_Matrices");
+    private static readonly int
+        colorAId = Shader.PropertyToID("_ColorA"),
+        colorBId = Shader.PropertyToID("_ColorB"),
+        matricesId = Shader.PropertyToID("_Matrices"),
+        sequenceNumbersId = Shader.PropertyToID("_SequenceNumbers");
     static MaterialPropertyBlock propertyBlock;
+    //
+    private Vector4[] sequenceNumbers;
     private void OnEnable()
     {
         parts = new NativeArray<FractalPart>[depth];
         matrices = new NativeArray<float3x4>[depth];
         //
         matricesBuffers = new ComputeBuffer[depth];
+        //
+        sequenceNumbers = new Vector4[depth];
+        //
         int stride = 12 * 4;
         //
         for (int i = 0, length = 1; i < parts.Length; i++, length *= 5)
@@ -81,6 +90,7 @@ public class Fractal : MonoBehaviour
             parts[i] = new NativeArray<FractalPart>(length, Allocator.Persistent);
             matrices[i] = new NativeArray<float3x4>(length, Allocator.Persistent);
             matricesBuffers[i] = new ComputeBuffer(length, stride);
+            sequenceNumbers[i] = new Vector4(Random.value, Random.value);
         }
 
         parts[0][0] = CreatePart(0);
@@ -138,10 +148,15 @@ public class Fractal : MonoBehaviour
         for (int i = 0; i < matricesBuffers.Length; i++) {
             ComputeBuffer buffer = matricesBuffers[i];
             buffer.SetData(matrices[i]);
+            float gradientInterpolator = i / (matricesBuffers.Length - 1f);
             propertyBlock.SetColor(
-                baseColorId, gradient.Evaluate(i / matricesBuffers.Length - 1f)
-                );
+                    colorAId, gradientA.Evaluate(gradientInterpolator)
+            );
+            propertyBlock.SetColor(
+                    colorBId, gradientB.Evaluate(gradientInterpolator)
+            );
             propertyBlock.SetBuffer(matricesId, buffer);
+            propertyBlock.SetVector(sequenceNumbersId, sequenceNumbers[i]);
             Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, buffer.count, propertyBlock);
         }
     }
@@ -158,6 +173,7 @@ public class Fractal : MonoBehaviour
         parts = null;
         matrices = null;
         matricesBuffers = null;
+        sequenceNumbers = null;
     }
 
     private void OnValidate()
